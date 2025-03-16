@@ -314,27 +314,28 @@ function detection_domain(){
 
 ###############################
 # 构建 jar 包（如果不存在则执行 gradle build）
+
 function build_jar(){
     ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
-    if [ -f "${ROOT_DIR}/WindowsPublicIP.jar" ]; then
-        echo "WindowsPublicIP.jar 已存在，无需构建。"
+    if [ -f "${ROOT_DIR}/PublicIP.jar" ]; then
+        echo "PublicIP.jar 已存在，无需构建。"
         panding
         return
     fi
-    echo "WindowsPublicIP.jar 不存在，开始构建..."
+    echo "PublicIP.jar 不存在，开始构建..."
     gradle build
     if [ "$?" -ne 0 ]; then
         echo "构建失败，说明你没有 gradle 环境，请直接使用原来的 jar 包或自行打包"
         pause
         return
     fi
-    if [ -f "${ROOT_DIR}/build/libs/WindowsPublicIP.jar" ]; then
-        echo "正在移动 WindowsPublicIP.jar 到根目录..."
-        mv "${ROOT_DIR}/build/libs/WindowsPublicIP.jar" "${ROOT_DIR}/"
+    if [ -f "${ROOT_DIR}/build/libs/PublicIP.jar" ]; then
+        echo "正在移动 PublicIP.jar 到根目录..."
+        mv "${ROOT_DIR}/build/libs/PublicIP.jar" "${ROOT_DIR}/"
         echo "移动完成。"
         panding
     else
-        echo "未找到 build/libs/WindowsPublicIP.jar 文件，请检查构建输出。"
+        echo "未找到 build/libs/PublicIP.jar 文件，请检查构建输出。"
         pause
         return
     fi
@@ -370,15 +371,15 @@ function start_run(){
     read -rp "请输入选项（1 或 2）： " run_choice
     if [ "$run_choice" == "1" ]; then
         echo "前台运行中。"
-        java -jar WindowsPublicIP.jar
+        java -jar PublicIP.jar
         echo "结束运行"
         pause
     elif [ "$run_choice" == "2" ]; then
         echo "后台运行中。"
-        nohup java -jar WindowsPublicIP.jar >/dev/null 2>&1 &
+        nohup java -jar PublicIP.jar >/dev/null 2>&1 &
         echo "查询后台进程："
-        # 这里列出包含 WindowsPublicIP.jar 的 java 进程
-        pgrep -fl "WindowsPublicIP.jar"
+        # 这里列出包含 PublicIP.jar 的 java 进程
+        pgrep -fl "PublicIP.jar"
         pause
     elif [ "$run_choice" == "3" ]; then
 	# 提示用户输入路径
@@ -398,7 +399,7 @@ function start_run(){
 	After=network.target
 
 	[Service]
-	ExecStart=/usr/bin/java -jar ${APP_PATH}WindowsPublicIP.jar
+	ExecStart=/usr/bin/java -jar ${APP_PATH}PublicIP.jar
 	WorkingDirectory=${APP_PATH}
 	User=$CURRENT_USER
 	Restart=always
@@ -415,8 +416,8 @@ function start_run(){
 	sudo systemctl start myapp.service
 	echo "myapp.service 已创建并启动。"
 	echo "查询后台进程："
-        # 这里列出包含 WindowsPublicIP.jar 的 java 进程
-        pgrep -fl "WindowsPublicIP.jar"
+        # 这里列出包含 PublicIP.jar 的 java 进程
+        pgrep -fl "PublicIP.jar"
         pause
 
     elif [ "$run_choice" == "4" ]; then
@@ -424,8 +425,8 @@ function start_run(){
     	echo "重启服务完成，检测服务状态"
     	sudo systemctl status myapp.service
     	echo "查询后台进程："
-        # 这里列出包含 WindowsPublicIP.jar 的 java 进程
-        pgrep -fl "WindowsPublicIP.jar"
+        # 这里列出包含 PublicIP.jar 的 java 进程
+        pgrep -fl "PublicIP.jar"
         pause
     else
         echo "无效选项，请重新输入。"
@@ -438,7 +439,7 @@ function start_run(){
 # 功能9：后台进程检测/删除
 function thread_que(){
     echo "查询后台进程："
-    pgrep -fl "WindowsPublicIP.jar"
+    pgrep -fl "PublicIP.jar"
     while true; do
         read -rp "是否删除进程？(Y/N): " del_choice
         case "$del_choice" in
