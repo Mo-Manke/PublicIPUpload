@@ -436,13 +436,13 @@ if %errorlevel% EQU 0 (
 :Build_jar
 set "ROOT_DIR=%~dp0"
 
-REM 检查根目录下是否存在 WindowsPublicIP.jar
-if exist "%ROOT_DIR%WindowsPublicIP.jar" (
-    echo WindowsPublicIP.jar 已存在，无需构建。
+REM 检查根目录下是否存在 PublicIP.jar
+if exist "%ROOT_DIR%PublicIP.jar" (
+    echo PublicIP.jar 已存在，无需构建。
     goto PANDING
 )
 REM 如果不存在，则运行 gradle build
-echo WindowsPublicIP.jar 不存在，开始构建...
+echo PublicIP.jar 不存在，开始构建...
 call gradle build
 
 
@@ -453,14 +453,14 @@ if errorlevel 1 (
     goto MAIN_LOOP
 )
 
-REM 构建成功后，将 build/libs/WindowsPublicIP.jar 剪切到根目录
-if exist "%ROOT_DIR%build\libs\WindowsPublicIP.jar" (
-    echo 正在移动 WindowsPublicIP.jar 到根目录...
-    move "%ROOT_DIR%build\libs\WindowsPublicIP.jar" "%ROOT_DIR%"
+REM 构建成功后，将 build/libs/PublicIP.jar 剪切到根目录
+if exist "%ROOT_DIR%build\libs\PublicIP.jar" (
+    echo 正在移动 PublicIP.jar 到根目录...
+    move "%ROOT_DIR%build\libs\PublicIP.jar" "%ROOT_DIR%"
     echo 移动完成。
     goto PANDING
 ) else (
-    echo 未找到 build/libs/WindowsPublicIP.jar 文件，请检查构建输出。
+    echo 未找到 build/libs/PublicIP.jar 文件，请检查构建输出。
 )
 
 pause >nul
@@ -490,14 +490,14 @@ set /p choice=请输入选项（1 或 2）：
 REM 检查用户输入
 if "%choice%"=="1" (
     echo 前台运行中。
-    java -jar WindowsPublicIP.jar
+    java -jar PublicIP.jar
     REM 在这里添加前台运行的命令
     echo 结束运行
     pause >nul
     goto MAIN_LOOP
 ) else if "%choice%"=="2" (
     echo 后台运行中。
-    start /B javaw -jar WindowsPublicIP.jar
+    start /B javaw -jar PublicIP.jar
     echo 查询后台进程
     tasklist /FI "IMAGENAME eq javaw.exe"
     pause >nul
