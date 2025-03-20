@@ -383,7 +383,7 @@ function start_run(){
         pause
     elif [ "$run_choice" == "3" ]; then
 	# 提示用户输入路径
-	AOO_PATH=$(pwd)
+	APP_PATH=$(pwd)
 	# 检查路径是否以斜杠结尾，如果没有则添加
 	if [[ "$APP_PATH" != */ ]]; then
 	  APP_PATH="$APP_PATH/"
@@ -406,7 +406,7 @@ function start_run(){
 
 	[Install]
 	WantedBy=multi-user.target
-	EOF"
+EOF"
 
 	# 重新加载systemd配置
 	sudo systemctl daemon-reload
