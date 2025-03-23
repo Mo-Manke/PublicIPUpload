@@ -17,13 +17,11 @@ WindowsPublicIP 是一个用于获取和更新公网 IPv4 地址的 Java 项目�
 
 ## 文件结构
 ```
-WindowsPublicIP
+PublicIP
 ├── A.sh             #Ubuntu运行脚本
 ├── A.bat            # Windows运行脚本
 ├── build.gradle             # Gradle 构建脚本
-├── gradle
-│   └── wrapper
-│       └── gradle-wrapper.properties
+├── PublicIP.jar              # 打包后的可执行 JAR 文件 
 ├── gradlew                  # Gradle 包装器
 ├── gradlew.bat              # Windows 环境下的 Gradle 包装器
 ├── settings.gradle          # Gradle 设置脚本
@@ -47,28 +45,31 @@ WindowsPublicIP
 ## 使用指南
 
 ### 环境配置
-在运行项目之前，请确保已安装 Java 和 Gradle。可以通过以下命令检查是否已安装：
+在运行项目之前，请确保已安装 Java。可以通过以下命令检查是否已安装：
+开发环境用的java21，其他环境自测
 ```shell
 java -version
 ```
 
 ### 配置腾讯云账号
 1. 在 `src/ReadFile/IdAndKey` 目录下添加腾讯云的 ID 和 Key。
-2. 运行 `A运行文件.bat` 脚本，选择“添加腾讯云ID和Key”选项进行配置。
+2. 运行 `A.bat` 脚本，选择“添加腾讯云ID和Key”选项进行配置。
 
 ### 添加域名
-1. 运行 `A运行文件.bat` 脚本，选择“添加域名”选项。
+1. 运行 `A.bat` 脚本，选择“添加域名”选项。
 2. 输入要添加的域名，例如 `example.com`。
 
 ### 启动项目
-1. 运行 `A运行文件.bat` 脚本，选择“启动运行”选项。
+1. 运行 `A.bat` 脚本，选择“启动运行”选项。
 2. 选择前台或后台运行方式。
 
 ### 后台进程管理
-1. 运行 `A运行文件.bat` 脚本，选择“后台进程检测/删除”选项。
+1. 运行 `A.bat` 脚本，选择“后台进程检测/删除”选项。
 2. 可以查看或终止后台运行的进程。
 
 ## 注意事项
+- 请确保在运行脚本之前已经正确配置了腾讯云账号的 ID 和 Key。域名等
+- 可运行检查环境，查看是否缺少
 - 请确保腾讯云账号的 ID 和 Key 的安全性，不要泄露。
 - 定时任务的执行间隔可以根据实际需求进行调整。
 - 项目运行过程中可能会产生网络请求，请确保网络连接正常。
