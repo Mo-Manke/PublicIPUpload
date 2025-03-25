@@ -1,7 +1,7 @@
-# WindowsPublicIP 项目说明文档
+# PublicIPUpload 项目说明文档
 
 ## 项目简介
-WindowsPublicIP 是一个用于获取和更新公网 IPv4 地址的 Java 项目。它支持通过腾讯云的 DNS 服务来实现动态域名系统 (DDNS) 功能。该项目可以定时检查并更新域名解析记录，以确保域名始终指向当前的公网 IP 地址。
+PublicIPUpload 是一个用于获取和更新公网 IPv4 地址的 Java 项目。它支持通过腾讯云的 DNS 服务来实现动态域名系统 (DDNS) 功能。该项目可以定时检查并更新域名解析记录，以确保域名始终指向当前的公网 IP 地址。
 
 ## 功能特点
 - 获取本机的公网 IPv4 地址。
