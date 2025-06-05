@@ -32,7 +32,7 @@ public class RepostController {
                 System.out.println(results);
                 if(results){
                         model.addAttribute("password",password);
-                        return "redirect:/pages/test";
+                        return "redirect:/pages/console";
                 }else {
                         model.addAttribute("error", "用户名或密码错误");
                         return "index"; // 返回登录页

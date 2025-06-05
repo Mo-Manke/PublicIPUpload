@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" >
 <head>
+    <base th:href="@{/}" >
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>域名解析管理</title>
-    <link rel="stylesheet" href="../css/console.css">
+    <link rel="stylesheet" href="css/console.css">
 </head>
 <body>
 <div class="container">
@@ -64,6 +65,6 @@
         </div>
     </div>
 </div>
-<script src="../js/console.js"></script>
+<script src="js/console.js"></script>
 </body>
 </html>

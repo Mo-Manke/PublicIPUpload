@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <base th:href="@{/}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>登录页面</title>
-    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
 <div class="container">
@@ -18,6 +19,7 @@
             <span></span>
         </div>
     </form>
+    <div th:text="${error}"></div>
 </div>
 <script src="js/index.js"></script>
 </body>
