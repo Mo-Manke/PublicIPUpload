@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <base th:text="@{/}">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录页面</title>
+    <link rel="stylesheet" href="./css/index.css">
 </head>
 <body>
-    <form action="login" method="post">
-        <input type="text" name="password">
-        <input type="submit" value="登录">
+<div class="container">
+    <form class="login_form" id="login">
+        <div class="header">
+            <h1>用户登录</h1>
+        </div>
+        <div class="input-group">
+            <input type="password" placeholder="请输入密码" />
+            <button type="submit">登录验证</button>
+            <span></span>
+        </div>
     </form>
-<p th:text="${error}">
+</div>
+<script src="js/index.js"></script>
 </body>
 </html>

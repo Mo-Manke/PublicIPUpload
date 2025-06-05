@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>域名解析管理</title>
+    <link rel="stylesheet" href="../css/console.css">
+</head>
+<body>
+<div class="container">
+    <!-- 左侧固定菜单 -->
+    <div class="sidebar">
+        <div class="user-info">
+            <img src="">
+            <h3>用户1</h3>
+        </div>
+        <ul class="menu">
+            <li class="active" data-page="domain-list"><a href="#">用户1</a></li>
+            <li data-page="add-domain"><a href="#">添加用户</a></li>
+        </ul>
+    </div>
+
+    <!-- 右侧动态内容区 -->
+    <div class="main-content">
+        <!-- 默认显示域名列表 -->
+        <div class="page active" id="domain-list">
+            <div class="toolbar">
+                <button class="btn">添加解析域名</button>
+                <button class="btn">购买解析套餐</button>
+                <button class="btn">设置关联秘钥      </button>
+
+            </div>
+            <table class="domain-table">
+                <thead>
+                <tr>
+                    <th>域名</th>
+                    <th>解析状态</th>
+                    <th>解析套餐</th>
+                    <th>最新操作时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>xxx</td>
+                    <td>xxx</td>
+                    <td>xxx</td>
+                    <td>xxx</td>
+                    <td>
+                        <button class="btn-sm">解析</button>
+                        <button class="btn-sm btn-danger">删除</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="pagination">
+                <span>1/1</span>
+                <span>共4条</span>
+                <span>11条/页</span>
+            </div>
+        </div>
+        <div class="page" id="add-domain">
+            <h2>添加用户页</h2>
+        </div>
+    </div>
+</div>
+<script src="../js/console.js"></script>
+</body>
+</html>

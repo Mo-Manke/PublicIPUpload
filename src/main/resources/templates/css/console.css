@@ -1,0 +1,113 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* 左侧固定菜单 */
+.sidebar {
+    width: 220px;
+    background: #fff;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px 0;
+}
+
+.user-info {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid #eee;
+}
+.user-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu li {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.menu li.active {
+    background: #e6f7ff;
+    border-left: 3px solid #1890ff;
+}
+
+.menu li:hover {
+    background: #f0f0f0;
+}
+
+/* 右侧内容区 */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background: #fff;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* 表格样式 */
+.domain-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.domain-table th, .domain-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.domain-table th {
+    background: #fafafa;
+    font-weight: 500;
+}
+
+/* 按钮样式 */
+.btn {
+    padding: 8px 16px;
+    background: #1890ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-sm {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+.btn-danger {
+    background: #ff4d4f;
+
+}
+
+/* 分页样式 */
+.pagination {
+    margin-top: 20px;
+    text-align: right;
+    color: #666;
+}
