@@ -9,6 +9,9 @@ public class RepostServiceImpl implements RepostService {
     @Override
     public boolean login(String password) {
         String results=repostDao.getPassword();
+        System.out.println(results);
+        System.out.println(!(results == null || results.isEmpty()));
+        System.out.println("results"+results.length()+"password"+password.length()+password.equals(results));
         if(!(results == null ||results.isEmpty())){
             return password.equals(results);
         }

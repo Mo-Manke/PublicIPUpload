@@ -14,6 +14,7 @@ public class RepostDaoImpl implements RepostDao {
 
         // 如果文件不存在，则创建新文件并写入默认内容
         if (!file.exists()) {
+            createCloudFolders();
             try (FileWriter writer = new FileWriter(file)) {
                 writer.write("123456");
             } catch (IOException e) {
@@ -33,7 +34,26 @@ public class RepostDaoImpl implements RepostDao {
             e.printStackTrace();
             return "";
         }
-
+        System.out.println(content.toString());
         return content.toString();
+    }
+    private void createCloudFolders() {
+        // 创建 "腾讯云" 文件夹
+        File tencentFolder = new File("腾讯云");
+        if (!tencentFolder.exists()) {
+            boolean isCreated = tencentFolder.mkdir(); // 创建单层目录
+            if (!isCreated) {
+                System.out.println("腾讯云 文件夹创建失败");
+            }
+        }
+
+        // 创建 "阿里云" 文件夹
+        File aliyunFolder = new File("阿里云");
+        if (!aliyunFolder.exists()) {
+            boolean isCreated = aliyunFolder.mkdir(); // 创建单层目录
+            if (!isCreated) {
+                System.out.println("阿里云 文件夹创建失败");
+            }
+        }
     }
 }

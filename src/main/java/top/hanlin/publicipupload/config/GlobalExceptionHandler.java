@@ -39,10 +39,10 @@ public class GlobalExceptionHandler {
     /**
      * 处理其他异常
      */
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(Exception.class)
-    public ApiResponse<Void> handleAllExceptions(Exception ex) {
-        log.error("服务器异常", ex);
-        return ApiResponse.error("服务器异常，请稍后再试");
-    }
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    @ExceptionHandler(Exception.class)
+//    public ApiResponse<Void> handleAllExceptions(Exception ex) {
+//        log.error("服务器异常", ex);
+//        return ApiResponse.error("服务器异常，请稍后再试");
+//    }
 }
