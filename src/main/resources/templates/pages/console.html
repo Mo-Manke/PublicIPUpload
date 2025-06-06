@@ -12,11 +12,18 @@
     <!-- 左侧固定菜单 -->
     <div class="sidebar">
         <div class="user-info">
-            <img src="">
-            <h3>用户1</h3>
+            <img src="img/user.png">
+            <h3 >管理员</h3>
         </div>
         <ul class="menu">
-            <li class="active" data-page="domain-list"><a href="#">用户1</a></li>
+            <li th:each="user : ${users}" class="active" data-page="domain-list">
+                <a href="#"
+                   class="user-link"
+                   th:text="${user}"
+                   >用户</a>
+            </li>
+        </ul>
+        <ul>
             <li data-page="add-domain"><a href="#">添加用户</a></li>
         </ul>
     </div>
