@@ -44,7 +44,7 @@ public class TencentApiServiceImpl implements TencentApiService {
             return true;
         } catch (TencentCloudSDKException e) {
             e.printStackTrace();
-            return true;
+            return false;
         }
     }
 
