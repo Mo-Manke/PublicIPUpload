@@ -24,3 +24,19 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+document.addEventListener('DOMContentLoaded', function () {
+    // 查找错误提示框
+    const errorAlert = document.getElementById('errorAlert');
+
+    // 如果存在且有内容，则5秒后隐藏
+    if (errorAlert) {
+        setTimeout(function () {
+            errorAlert.style.transition = 'opacity 0.5s';
+            errorAlert.style.opacity = 0;
+
+            setTimeout(function () {
+                errorAlert.style.display = 'none';
+            }, 500); // 动画时间
+        }, 5000); // 5秒后执行
+    }
+});

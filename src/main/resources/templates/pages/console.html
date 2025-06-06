@@ -19,7 +19,10 @@
             <li th:each="user : ${users}" class="active" data-page="domain-list">
                 <a href="#" class="user-link" th:text="${user}">用户</a>
             </li>
-            <li data-page="add-domain"><a href="javascript:void(0)" class="user-link">添加用户</a></li>
+            <li th:class="${tab == 'add-domain' ? 'active' : ''}" data-page="add-domain">
+                <a href="javascript:void(0)" class="user-link">添加用户</a>
+            </li>
+
         </ul>
 
     </div>
@@ -64,6 +67,10 @@
             </div>
         </div>
         <div class="page" id="add-domain">
+            <!-- 错误提示框 -->
+            <div id="errorAlert" th:if="${error}" class="alert alert-danger">
+                <span th:text="${error}">错误信息</span>
+            </div>
             <h2>添加用户</h2>
             <form th:action="@{/addAccount}" method="post">
                 <div class="form-group">
@@ -83,8 +90,6 @@
                     <label for="key">密钥Key：</label>
                     <input type="text" id="key" name="key" required />
                 </div>
-                <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-
 
                 <button type="submit" class="btn">提交</button>
             </form>

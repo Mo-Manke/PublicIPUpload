@@ -65,28 +65,31 @@ public class RepostController {
      * @return
      */
     @PostMapping("/addAccount")
-    public String addAccount(@RequestParam String name, String id, String key,Model model) {
+    public String addAccount(@RequestParam String name, String id, String key, Model model) {
         if (name == null || name.isEmpty()) {
-            model.addAttribute("error","未选择云商");
-            return  "/pages/console";
+            model.addAttribute("error", "未选择云商");
+            model.addAttribute("tab", "add-domain"); // 新增 tab 参数
+            model.addAttribute("users", repostService.getAllUser()); // 确保 users 存在
+            return "pages/console";
         }
         if (name.equals("1")) {
             if(tencentApiService.validateCredentials(id,key)){
-                status="添加失败";
                 if(tencentApiService.addIdAndKey("腾讯云",id,key)){
                     status="添加成功";
+                } else {
+                    status="添加失败";
                 }
                 return "redirect:/pages/console";
             }
             model.addAttribute("error","id或key无效，请检查");
-            return  "/pages/console";
-        }else {
-            return  "/pages/console";
+            model.addAttribute("tab", "add-domain"); // 新增 tab 参数
+            model.addAttribute("users", repostService.getAllUser());
+            return "pages/console";
+        } else {
+            model.addAttribute("tab", "add-domain");
+            model.addAttribute("users", repostService.getAllUser());
+            return "pages/console";
         }
-        //后续添加阿里
-//        if(name.equals("2")){
-//
-//        }
     }
 
 //        @PostMapping("/getAllInformation")
