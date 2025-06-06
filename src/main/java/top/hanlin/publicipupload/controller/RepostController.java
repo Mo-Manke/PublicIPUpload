@@ -72,7 +72,7 @@ public class RepostController {
         }
         if (name.equals("1")) {
             if(tencentApiService.validateCredentials(id,key)){
-
+                status="添加失败";
                 if(tencentApiService.addIdAndKey("腾讯云",id,key)){
                     status="添加成功";
                 }
