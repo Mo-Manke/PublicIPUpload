@@ -4,6 +4,7 @@ body {
     padding: 0;
     background-color: #f5f5f5;
 }
+
 .alert {
     padding: 10px;
     margin-bottom: 20px;
@@ -21,29 +22,54 @@ a {
     color: black;
 }
 
+/* 容器布局 */
 .container {
     display: flex;
     min-height: 100vh;
 }
 
-/* 左侧固定菜单 */
+/* 左侧菜单 - 增强分割效果 */
 .sidebar {
-    width: 220px;
-    background: #fff;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    width: 240px;
+    background: #2c3e50;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
     padding: 20px 0;
+    position: relative;
+    z-index: 10;
+    border-right: 2px solid #1a2634;
 }
 
+/* 右侧内容区 */
+.main-content {
+    flex: 1;
+    padding: 25px;
+    background: #ffffff;
+    margin-left: -1px;
+    box-shadow: inset 8px 0 10px -10px rgba(0,0,0,0.1);
+}
+
+/* 用户信息样式调整 */
 .user-info {
-    padding: 0 20px 20px;
-    border-bottom: 1px solid #eee;
-}
-.user-info img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+    padding: 0 20px 25px;
+    border-bottom: 2px solid #34495e;
+    margin-bottom: 15px;
+    border-radius: 0 0 8px 8px;
 }
 
+.user-info img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.user-info h3 {
+    color: #ecf0f1;
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+/* 菜单项样式调整 */
 .menu {
     list-style: none;
     padding: 0;
@@ -51,26 +77,50 @@ a {
 }
 
 .menu li {
-    padding: 10px 20px;
+    padding: 12px 25px;
     cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+    margin-top: 10px;
+    border-radius: 4px;
 }
 
-.menu li.active {
-    background: #e6f7ff;
-    border-left: 3px solid #1890ff;
+.menu li a.user-link {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+    padding-right: 10px;
+    color: #bdc3c7;
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 .menu li:hover {
-    background: #f0f0f0;
+    background: #34495e;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* 右侧内容区 */
-.main-content {
-    flex: 1;
-    padding: 20px;
-    background: #fff;
+.menu li.active {
+    background: #34495e;
+    border-left: 4px solid #3498db;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
+.menu li a {
+    color: #bdc3c7;
+    text-decoration: none;
+    display: block;
+    transition: color 0.3s ease;
+}
+
+.menu li:hover a,
+.menu li.active a {
+    color: #ecf0f1;
+}
+
+/* 页面内容 */
 .page {
     display: none;
 }
@@ -97,6 +147,29 @@ a {
     font-weight: 500;
 }
 
+/* 复选框样式 */
+.domain-table th:first-child,
+.domain-table td:first-child {
+    text-align: center;
+    width: 40px;
+}
+
+.domain-table input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+#selectAll {
+    margin: 0;
+    vertical-align: middle;
+}
+
+.domain-checkbox {
+    margin: 0;
+    vertical-align: middle;
+}
+
 /* 按钮样式 */
 .btn {
     padding: 8px 16px;
@@ -108,13 +181,16 @@ a {
 }
 
 .btn-sm {
+    background: #bcbcbc;
     padding: 4px 8px;
     font-size: 12px;
+    border: none;
+    border-radius: 2px;
 }
 
 .btn-danger {
-    background: #ff4d4f;
-
+    background: #fd1f22;
+    color: white;
 }
 
 /* 分页样式 */
@@ -122,4 +198,113 @@ a {
     margin-top: 20px;
     text-align: right;
     color: #666;
+}
+
+/* 添加用户表单样式 */
+#add-domain {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#add-domain h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 24px;
+    text-align: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+#form_console {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: #555;
+    font-size: 14px;
+}
+
+#form_console input[type="text"],
+#form_console select {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+}
+
+#form_console input[type="text"]:focus,
+#form_console select:focus {
+    border-color: #1890ff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(24, 144, 255, 0.2);
+    background-color: #fff;
+}
+
+#form_console select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 15px;
+    padding-right: 35px;
+}
+
+#form_console .btn {
+    margin-top: 10px;
+    padding: 12px;
+    background: #1890ff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#form_console .btn:hover {
+    background: #40a9ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(24, 144, 255, 0.2);
+}
+
+/* 错误提示框样式 */
+.alert-danger {
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    color: white;
+    background-color: #ff4d4f;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.alert-danger:before {
+    content: "!";
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: white;
+    color: #ff4d4f;
+    border-radius: 50%;
+    font-weight: bold;
 }

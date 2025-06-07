@@ -66,6 +66,7 @@ public class RepostController {
      */
     @PostMapping("/addAccount")
     public String addAccount(@RequestParam String name, String id, String key, Model model) {
+        log.info("添加腾讯云或阿里云id和key"+name+id+key);
         if (name == null || name.isEmpty()) {
             model.addAttribute("error", "未选择云商");
             model.addAttribute("tab", "add-domain"); // 新增 tab 参数

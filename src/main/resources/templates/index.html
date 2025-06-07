@@ -16,7 +16,7 @@
         </div>
         <div class="input-group">
         <input th:value="${password}" type="password" name="password" placeholder="请输入密码"/>
-            <div>
+            <div class="error">
                 <p th:text="${error}"></p>
             </div>
         <button type="submit">登录验证</button>
