@@ -21,7 +21,7 @@ import java.util.List;
 public class RepostController {
     RepostService repostService = new RepostServiceImpl();
     TencentApiService tencentApiService=new TencentApiServiceImpl();
-    private boolean flag = false;
+    public static boolean flag = false;
     private String status;
 
     // 新增这个方法
