@@ -70,9 +70,16 @@
         <!-- 添加用户页面(默认显示) -->
         <div class="page active" id="add-domain">
             <!-- 错误提示框 -->
-            <div id="errorAlert" th:if="${error}" class="alert alert-danger">
-                <span th:text="${error}">错误信息</span>
+            <div id="errorAlert" class="alert"
+                 th:class="${error != null} ? 'alert-danger' : (${status != null} ? 'alert-success' : '')"
+                 th:if="${error != null or status != null}">
+                <span th:text="${error != null ? error : (status != null ? status : '')}">错误或状态信息</span>
+
             </div>
+
+
+
+
             <h2>添加用户</h2>
             <form id="form_console" th:action="@{/addAccount}" method="post">
                 <div class="form-group">
