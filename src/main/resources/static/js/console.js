@@ -94,12 +94,15 @@ document.addEventListener('DOMContentLoaded', function () {
         const key = userLi.querySelector('.user-key').value;
         console.log(id)
         console.log(key)
+        const formData = new URLSearchParams();
+        formData.append('id', id);
+        formData.append('key', key);
         fetch('/api/tencent/DescribeDomainList', {
             method: 'POST',
             headers: { 'Content-Type':'application/x-www-form-urlencoded' },
-            body: JSON.stringify({ id, key })
+            body: formData
         })
-            .then(response => response.formData())
+            .then(response => response.json())
             .then(data => {
                 console.log('API返回数据:', data); // 调试用
                 if (data.code === 200) {
