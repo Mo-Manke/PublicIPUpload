@@ -8,4 +8,5 @@ public interface FileOperationDao {
     String getPassword();
     List<UserInfo> getAllUser();
     boolean addIdAndKey(String name,String secretId,String secretKey);
+    void modifyPassword(String modify);
 }

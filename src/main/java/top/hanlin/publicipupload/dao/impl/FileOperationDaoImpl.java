@@ -91,6 +91,16 @@ public class FileOperationDaoImpl implements FileOperationDao {
         return true; // 成功返回 true
     }
 
+    @Override
+    public void modifyPassword(String modify) {
+        try (FileWriter writer = new FileWriter("password")) {
+            writer.write(modify);
+            System.out.println("密码文件更新成功！");
+        } catch (IOException e) {
+            System.err.println("写入密码文件失败：" + e.getMessage());
+        }
+    }
+
 
     @Override
     public String getPassword() {

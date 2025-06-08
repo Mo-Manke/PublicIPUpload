@@ -3,6 +3,7 @@ package top.hanlin.publicipupload.controller;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,27 @@ public class RepostController {
     TencentApiService tencentApiService=new TencentApiServiceImpl();
     public static boolean flag = false;
     private String status;
+    private String error;
+
+    @GetMapping("/lock")
+    public String getLock() {
+        log.info("密码上锁");
+        flag=false;
+        return "redirect:/pages/console";
+    }
+    @PostMapping("/modify/password")
+    public String modifyPassword(@RequestParam String password ,String modify) {
+        log.info("修改密码");
+        if(repostService.login(password)){
+            status="修改成功";
+            repostService.modifyPassword(modify);
+        }else {
+            error="原密码不正确，修改失败";
+        }
+
+        return "redirect:/pages/console";
+    }
+
 
     // 新增这个方法
     @GetMapping("/pages/console")
@@ -34,6 +56,8 @@ public class RepostController {
         List<UserInfo> allUser = repostService.getAllUser();
         model.addAttribute("status", status);
         model.addAttribute("users", allUser);
+        status=null;
+        error=null;
         return "pages/console";
     }
 
@@ -78,7 +102,7 @@ public class RepostController {
                 if(tencentApiService.addIdAndKey("腾讯云",id,key)){
                     status="添加成功";
                 } else {
-                    status="添加失败";
+                    error="添加失败";
                 }
                 return "redirect:/pages/console";
             }

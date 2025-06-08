@@ -23,4 +23,9 @@ public class RepostServiceImpl implements RepostService {
     public List<UserInfo> getAllUser() {
         return repostDao.getAllUser();
     }
+
+    @Override
+    public void modifyPassword(String modify) {
+
+    }
 }

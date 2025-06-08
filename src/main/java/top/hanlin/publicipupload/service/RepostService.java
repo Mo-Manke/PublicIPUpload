@@ -17,4 +17,6 @@ public interface RepostService {
      * @return 获取所有用户
      */
     List<UserInfo> getAllUser();
+
+    void modifyPassword(String modify);
 }
