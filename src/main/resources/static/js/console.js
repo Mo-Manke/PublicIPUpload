@@ -89,16 +89,17 @@ document.addEventListener('DOMContentLoaded', function () {
         const userLi = e.target.closest('li[data-page="domain-list"]');
         if (!userLi) return;
 
-        const name = userLi.querySelector('.user-link').textContent;
+        // const name = userLi.querySelector('.user-link').textContent;
         const id = userLi.querySelector('.user-id').value;
         const key = userLi.querySelector('.user-key').value;
-
+        console.log(id)
+        console.log(key)
         fetch('/api/tencent/DescribeDomainList', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, id, key })
+            headers: { 'Content-Type':'application/x-www-form-urlencoded' },
+            body: JSON.stringify({ id, key })
         })
-            .then(response => response.json())
+            .then(response => response.formData())
             .then(data => {
                 console.log('API返回数据:', data); // 调试用
                 if (data.code === 200) {
@@ -163,6 +164,8 @@ document.addEventListener('DOMContentLoaded', function () {
         tbody.innerHTML = html;
         document.querySelector('.pagination span:nth-child(2)').textContent = `共${domainList.length}条`;
     }
+
+
 
 
 
