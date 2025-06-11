@@ -10,26 +10,100 @@
 <body>
 <div class="container">
     <!-- 左侧固定菜单 -->
-    <div class="sidebar" id="sidebar">
+    <div class="sidebar">
         <div class="user-info">
             <img src="img/user.png">
             <h3>管理员</h3>
         </div>
-        <ul class="menu" id="menu">
-            <li id="user_list" th:each="user : ${users}" class="active">
-                <a  data-page="domainList" id="names" href="#" class="user-link" th:text="${user.name}">用户</a>
+        <ul class="menu">
+            <li id="user_list" th:each="user : ${users}" th:class="${tab != 'add-domain' ? 'active' : ''}" data-page="domain-list">
+                <a id="names" href="#" class="user-link" th:text="${user.name}">用户</a>
                 <input id="ids" type="hidden" class="user-id" th:value="${user.id}">
                 <input id="keys" type="hidden" class="user-key" th:value="${user.key}">
             </li>
-            <li  class="active" >
-                <a href="#" data-page="addDomain" class="user-link">添加用户</a>
+            <li th:class="${tab == 'add-domain' ? 'active' : ''}" class="active" data-page="add-domain">
+                <a href="javascript:void(0)" class="user-link">添加用户</a>
             </li>
         </ul>
     </div>
 
     <!-- 右侧动态内容区 -->
-    <div class="main-content" id="content">
+    <div class="main-content">
+        <!-- 域名列表 -->
+        <div class="page" id="domain-list">
+            <div class="toolbar">
+                <button class="btn">添加解析域名</button>
+                <button class="btn">购买解析套餐</button>
+                <button class="btn">设置关联秘钥</button>
+            </div>
+            <table class="domain-table">
+                <thead>
+                <tr>
+                    <th width="40px"><input type="checkbox" id="selectAll"></th>
+                    <th>域名</th>
+                    <th>解析状态</th>
+                    <th>解析套餐</th>
+                    <th>最新操作时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><input type="checkbox" class="domain-checkbox"></td>
+                    <td>example.com</td>
+                    <td>已解析</td>
+                    <td>基础版</td>
+                    <td>2023-05-15 10:30</td>
+                    <td>
+                        <button class="btn-sm">解析</button>
+                        <button class="btn-sm btn-danger">删除</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="pagination">
+                <span>1/1</span>
+                <span>共3条</span>
+            </div>
+        </div>
 
+        <!-- 添加用户页面(默认显示) -->
+        <div class="page active" id="add-domain">
+            <!-- 错误提示框 -->
+            <div id="errorAlert" class="alert"
+                 th:class="${error != null} ? 'alert-danger' : (${status != null} ? 'alert-success' : '')"
+                 th:if="${error != null or status != null}">
+                <span th:text="${error != null ? error : (status != null ? status : '')}">错误或状态信息</span>
+
+            </div>
+
+
+
+
+            <h2>添加用户</h2>
+            <form id="form_console" th:action="@{/addAccount}" method="post">
+                <div class="form-group">
+                    <label for="provider">选择云服务商：</label>
+                    <select id="provider" name="name" required>
+                        <option value="" disabled selected>请选择云服务商</option>
+                        <option value="1">腾讯云</option>
+                        <option value="2">阿里云</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="id">用户ID：</label>
+                    <input type="text" id="id" name="id" required placeholder="请输入用户ID"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="key">密钥Key：</label>
+                    <input type="text" id="key" name="key" required placeholder="请输入密钥Key"/>
+                </div>
+
+                <button type="submit" class="btn">提交</button>
+            </form>
+        </div>
     </div>
 </div>
 <script src="js/console.js"></script>

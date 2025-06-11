@@ -1,0 +1,63 @@
+<!-- domainList.html -->
+<div class="page active">
+  <div class="toolbar">
+    <button class="btn">添加解析域名</button>
+    <button class="btn">购买解析套餐</button>
+    <button class="btn">设置关联秘钥</button>
+  </div>
+  <div th:text="${error}"> </div>
+  <table class="domain-table">
+    <thead>
+    <tr>
+      <th width="40px"><input type="checkbox" id="selectAll"></th>
+      <th>域名</th>
+      <th>解析状态</th>
+      <th>解析套餐</th>
+      <th>解析记录数</th>
+      <th>最新操作时间</th>
+      <th>备注</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="domain : ${domainList}">
+      <td><input type="checkbox" class="domain-checkbox" ></td>
+      <td th:text="${domain.punycode}">example.com</td>
+      <td>
+        <button class="status-btn" th:classappend="${domain.status == 'ENABLE' ? 'btn-success' : 'btn-danger'}"
+                th:text="${domain.status == 'ENABLE' ? '已启用' : '已禁用'}"
+                th:data-domain="${domain.punycode}"
+                th:data-status="${domain.status == 'ENABLE' ? 'DISABLE' : 'ENABLE'}"
+                onclick="showStatusChangeModal(this)">
+        </button>
+      </td>
+
+      <td th:text="${domain.gradeTitle}">基础版</td>
+      <td th:text="${domain.recordCount}">0</td>
+      <td th:text="${domain.updatedOn}">2023-05-15 10:30</td>
+      <td th:text="${domain.remark}">-</td>
+      <td>
+        <button class="btn-sm" >解析</button>
+        <button class="btn-sm btn-danger">删除</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="pagination">
+    <span>1/1</span>
+    <span>共<span th:text="${#lists.size(domainList)}">0</span>条</span>
+  </div>
+</div>
+
+<!-- 状态修改确认弹窗 -->
+<div id="statusModal" class="modal">
+  <div class="modal-content">
+    <h3>确认修改域名状态</h3>
+    <p id="statusModalText">确定要将域名 <span id="modalDomainName"></span> 的状态修改为 <span id="modalStatusText"></span> 吗？</p>
+    <div class="modal-actions">
+      <button class="btn" onclick="confirmStatusChange()">确认</button>
+      <button class="btn btn-danger" onclick="closeModal()">取消</button>
+    </div>
+  </div>
+</div>
+

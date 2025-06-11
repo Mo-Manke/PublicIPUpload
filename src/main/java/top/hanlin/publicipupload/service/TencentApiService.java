@@ -1,8 +1,5 @@
 package top.hanlin.publicipupload.service;
 
-import org.springframework.web.bind.annotation.RequestParam;
-import top.hanlin.publicipupload.model.ApiResponse;
-
 public interface TencentApiService {
     /**
      * 校验腾讯云id和key是否可用
@@ -19,6 +16,4 @@ public interface TencentApiService {
      * @return 是否添加成功
      */
     boolean addIdAndKey(String name,String secretId,String secretKey);
-    ApiResponse<?> getDescribeDomainList(String id , String key  );
-    ApiResponse<?> getModifyDomainStatus(String id , String key,String domain,String status);
 }

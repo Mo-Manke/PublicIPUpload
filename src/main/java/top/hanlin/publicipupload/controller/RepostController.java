@@ -1,25 +1,20 @@
 package top.hanlin.publicipupload.controller;
 
 
-import com.tencentcloudapi.dnspod.v20210323.models.DescribeDomainListResponse;
-import com.tencentcloudapi.dnspod.v20210323.models.DomainInfo;
-import com.tencentcloudapi.dnspod.v20210323.models.DomainListItem;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
-import top.hanlin.publicipupload.model.ApiResponse;
-import top.hanlin.publicipupload.model.Domain;
 import top.hanlin.publicipupload.entity.UserInfo;
 import top.hanlin.publicipupload.service.RepostService;
 import top.hanlin.publicipupload.service.TencentApiService;
 import top.hanlin.publicipupload.service.impl.RepostServiceImpl;
 import top.hanlin.publicipupload.service.impl.TencentApiServiceImpl;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -31,64 +26,6 @@ public class RepostController {
     private String status;
     private String error;
 
-    @PostMapping("/ModifyDomainStatus")
-    public String getModifyDomainStatus(@RequestParam String type, String id, String key, String domain,String status,Model model){
-        log.info("修改域名状态 type: {},id: {}, key: {}domain{},status:{}", type,id, key,domain,status);
-        if(type.equals("1")){
-            ApiResponse<?> modifyDomainStatus = tencentApiService.getModifyDomainStatus(id, key, domain, status);
-            if(modifyDomainStatus.getCode()!=200){
-                model.addAttribute("error", "id或key错误");
-                System.out.println("到这1");
-                return "pages/domainList";
-            }
-            System.out.println("到这2");
-            return "pages/domainList";
-        }
-        System.out.println("到这3");
-        return "redirect:pages/domainList";
-    }
-
-    @PostMapping("/domainList")
-    public String getDomainList(@RequestParam String type, String id, String key,
-                                Model model) {
-        log.info("获取所有解析域名 id: {}, key: {}", id, key);
-        // 这里可以调用服务层根据 type, id, key 查询数据
-        if(type.equals("1")){
-            ApiResponse<?> describeDomainList = tencentApiService.getDescribeDomainList(id, key);
-            if(describeDomainList.getCode()!=200){
-                model.addAttribute("error", "id或key错误");
-                return "pages/domainList";
-            }
-
-// 获取 DescribeDomainListResponse 列表（通常是一个元素）
-            List<DescribeDomainListResponse> dataList = (List<DescribeDomainListResponse>) describeDomainList.getData();
-
-// 提取 domainList
-            DomainListItem[] domainList = dataList.get(0).getDomainList();
-
-            model.addAttribute("domainList", domainList);
-            return "pages/domainList";
-        }
-
-
-
-
-        // 示例数据
-        model.addAttribute("domains", Arrays.asList(
-                new Domain("example.com", "已解析", "基础版", "2023-05-15 10:30"),
-                new Domain("test.com", "未解析", "无", "2023-06-01 09:00")
-        ));
-        return "pages/domainList";
-    }
-
-    @GetMapping("/addDomain")
-    public String test2(Model model) {
-        model.addAttribute("status", status);
-        error=null;
-        status=null;
-
-        return "pages/addDomain";
-    }
     @GetMapping("/lock")
     public String getLock() {
         log.info("密码上锁");
@@ -119,7 +56,8 @@ public class RepostController {
         List<UserInfo> allUser = repostService.getAllUser();
         model.addAttribute("status", status);
         model.addAttribute("users", allUser);
-
+        status=null;
+        error=null;
         return "pages/console";
     }
 
@@ -155,6 +93,7 @@ public class RepostController {
         log.info("添加腾讯云或阿里云id和key"+name+id+key);
         if (name == null || name.isEmpty()) {
             model.addAttribute("error", "未选择云商");
+            model.addAttribute("tab", "add-domain"); // 新增 tab 参数
             model.addAttribute("users", repostService.getAllUser()); // 确保 users 存在
             return "pages/console";
         }
@@ -168,9 +107,11 @@ public class RepostController {
                 return "redirect:/pages/console";
             }
             model.addAttribute("error","id或key无效，请检查");
+            model.addAttribute("tab", "add-domain"); // 新增 tab 参数
             model.addAttribute("users", repostService.getAllUser());
             return "pages/console";
         } else {
+            model.addAttribute("tab", "add-domain");
             model.addAttribute("users", repostService.getAllUser());
             return "pages/console";
         }
