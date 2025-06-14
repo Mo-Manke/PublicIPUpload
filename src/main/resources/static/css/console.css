@@ -129,6 +129,21 @@ a {
     display: block;
 }
 
+/* 工具栏样式 */
+.toolbar {
+    display: flex;
+    justify-content:start;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.left-buttons, .right-buttons {
+    display: flex;
+    gap: 10px;
+}
+
 /* 表格样式 */
 .domain-table {
     width: 100%;
@@ -170,6 +185,7 @@ a {
     vertical-align: middle;
 }
 
+
 /* 按钮样式 */
 .btn {
     padding: 8px 16px;
@@ -178,6 +194,19 @@ a {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn:hover {
+    background: #40a9ff;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.btn a {
+    color: white;
 }
 
 .btn-sm {
@@ -191,6 +220,131 @@ a {
 .btn-danger {
     background: #fd1f22;
     color: white;
+}
+
+
+/*上锁样式*/
+.lock-btn {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.lock-btn span {
+    font-size: 13px;
+}
+
+.btn {
+    position: relative;
+    overflow: hidden;
+}
+
+/* 按钮点击效果 */
+.btn:active {
+    transform: translateY(1px);
+}
+
+/* 按钮样式 */
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 13px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+/* 解析按钮 - 蓝色渐变 */
+.btn-sm:first-of-type {
+    background: linear-gradient(135deg, #1890ff, #36cffa);
+    color: white;
+    border: 1px solid rgba(24, 144, 255, 0.3);
+}
+
+/* 删除按钮 - 红色渐变 */
+.btn-danger {
+    background: linear-gradient(135deg, #ff4d4f, #ff7875);
+    color: white;
+    border: 1px solid rgba(255, 77, 79, 0.3);
+}
+
+/* 按钮悬停效果 */
+.btn-sm:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* 按钮点击效果 */
+.btn-sm:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* 按钮图标样式 */
+.btn-sm i {
+    font-size: 12px;
+}
+
+/* 按钮波纹效果 */
+.btn-sm::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%, -50%);
+    transform-origin: 50% 50%;
+}
+
+.btn-sm:focus:not(:active)::after {
+    animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(20, 20);
+        opacity: 0;
+    }
+}
+
+/* 按钮间距 */
+.domain-table td:last-child {
+    display: flex;
+    gap: 8px;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .btn-sm {
+        padding: 5px 8px;
+        font-size: 12px;
+    }
+
+    .btn-sm i {
+        display: none;
+    }
+}
+
+
+/*是否解析样式*/
+.status-cell {
+    cursor: pointer;
+    transition: all 0.3s;
 }
 
 /* 分页样式 */
@@ -276,6 +430,7 @@ a {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
+    justify-content: center;
 }
 
 #form_console .btn:hover {
@@ -308,6 +463,7 @@ a {
     border-radius: 50%;
     font-weight: bold;
 }
+
 .alert-success {
     background-color: #52c41a;
     color: white;
@@ -331,3 +487,229 @@ a {
     border-radius: 50%;
     font-weight: bold;
 }
+
+
+
+
+/* 模态框样式增强 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 400px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-title {
+    margin: 0 0 20px 0;
+    color: #333;
+    font-size: 20px;
+    text-align: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.3s;
+    padding: 5px;
+}
+
+.close-btn:hover {
+    color: #333;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.3s;
+    box-sizing: border-box;
+}
+
+.modal-input:focus {
+    border-color: #1890ff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(24, 144, 255, 0.1);
+}
+
+.modal-submit-btn {
+    width: 100%;
+    padding: 12px;
+    background: #1890ff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.modal-submit-btn:hover {
+    background: #40a9ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(24, 144, 255, 0.2);
+}
+
+
+
+
+
+/* 添加域名模态框特定样式 */
+.modal-body {
+    padding: 15px 0;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* 增大按钮间距 */
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+
+}
+
+.modal-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.3s;
+    box-sizing: border-box;
+    resize: vertical;
+    min-height: 100px;
+}
+
+.modal-input:focus {
+    border-color: #1890ff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(24, 144, 255, 0.1);
+}
+
+
+/* 提交按钮样式 - 绿色 */
+.modal-submit-btn {
+    background: #07C160;
+    color: white;
+    padding: 6px 24px;  /* 更大的水平内边距 */
+    width: 96px;       /* 更宽 */
+    height: 32px;      /* 相同高度 */
+    border-radius: 2px; /* 直角方形 */
+    font-size: 14px;
+    border: none;
+}
+
+.modal-submit-btn:hover {
+    background: #06AD56;
+    border-color: #06AD56;
+}
+
+/* 按钮悬停效果 */
+.btn-cancel:hover,
+.modal-submit-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* 按钮点击效果 */
+.btn-cancel:active,
+.modal-submit-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+/* 禁用文字选中 */
+button {
+    user-select: none;
+}
+
+
+
+
+/* 解析记录弹框样式 */
+#dnsRecordModal .modal-content {
+    padding: 20px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.record-table-container {
+    margin-top: 15px;
+    overflow-x: auto;
+}
+
+.record-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.record-table th, .record-table td {
+    padding: 10px;
+    border: 1px solid #e1e1e1;
+    text-align: left;
+}
+
+.record-table th {
+    background-color: #f5f5f5;
+    font-weight: 600;
+}
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+
+
+.status-active {
+    color: green;
+}
+
+.status-paused {
+    color: orange;
+}
+
+

@@ -62,7 +62,7 @@ public class TencentApiController {
 
     @PostMapping("/ModifyDomainStatus")
     public Object getModifyDomainStatus(@RequestParam String id ,String key ,String domain,String status){
-        log.info("修改域名转态");
+        log.info("修改域名转态id{},key{},domain{},status{}",id,key,domain,status);
         try{
             // 实例化一个认证对象，入参需要传入腾讯云账户 SecretId 和 SecretKey，此处还需注意密钥对的保密
             // 代码泄露可能会导致 SecretId 和 SecretKey 泄露，并威胁账号下所有资源的安全性
@@ -83,6 +83,7 @@ public class TencentApiController {
             // 实例化一个请求对象,每个接口都会对应一个request对象
             ModifyDomainStatusRequest req = new ModifyDomainStatusRequest();
             req.setDomain(domain);
+            status = status.toLowerCase();
             System.out.println(status);
             req.setStatus(status.equals("enable")?"disable":"enable");
 

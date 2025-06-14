@@ -5,24 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>登录页面</title>
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 <div class="container">
-
-    <form class="login_form" id="login" th:action="@{/login}" method="post">
-        <div class="header">
+    <form class="login-form" id="login" th:action="@{/login}" method="post">
+        <div class="form-header">
             <h1>用户登录</h1>
         </div>
-        <div class="input-group">
-        <input th:value="${password}" type="password" name="password" placeholder="请输入密码"/>
-            <div class="error">
+        <div class="form-group">
+            <div class="input-field password-field">
+                <input th:value="${password}"
+                       type="password"
+                       name="password"
+                       id="password"
+                       placeholder="请输入密码"
+                       required>
+                <button type="button" class="password-toggle" id="togglePassword">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+            <div class="error-message" th:if="${error}">
                 <p th:text="${error}"></p>
             </div>
-        <button type="submit">登录验证</button>
+            <button type="submit" class="submit-btn">登录验证</button>
         </div>
     </form>
-
 </div>
+<script src="/js/login.js"></script>
 </body>
 </html>

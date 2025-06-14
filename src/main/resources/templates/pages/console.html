@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>域名解析管理</title>
     <link rel="stylesheet" href="css/console.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 <div class="container">
@@ -32,9 +33,17 @@
         <!-- 域名列表 -->
         <div class="page" id="domain-list">
             <div class="toolbar">
-                <button class="btn">添加解析域名</button>
-                <button class="btn">购买解析套餐</button>
-                <button class="btn">设置关联秘钥</button>
+                <div class="left-buttons">
+                    <button class="btn"><i class="fas fa-plus"></i> 添加解析域名</button>
+                    <button class="btn"><i class="fas fa-shopping-cart"></i> <a href="https://buy.cloud.tencent.com/cns?from=gobuy" target="_blank">购买解析套餐</a></button>
+                    <button class="btn"><i class="fas fa-key"></i> 设置关联秘钥</button>
+                </div>
+                <div class="right-buttons">
+                    <a th:href="@{/lock}" class="btn lock-btn">
+                        <i class="fas fa-lock"></i>
+                        <span>上锁</span>
+                    </a>
+                </div>
             </div>
             <table class="domain-table">
                 <thead>
@@ -48,15 +57,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
+                <tr id="form_list">
                     <td><input type="checkbox" class="domain-checkbox"></td>
                     <td>example.com</td>
-                    <td>已解析</td>
+                    <td class="status-cell">已解析</td>
                     <td>基础版</td>
                     <td>2023-05-15 10:30</td>
                     <td>
-                        <button class="btn-sm">解析</button>
-                        <button class="btn-sm btn-danger">删除</button>
+                        <button class="btn-sm"><i class="fas fa-globe"></i> 解析</button>
+                        <button class="btn-sm btn-danger"><i class="fas fa-trash-alt"></i> 删除</button>
                     </td>
                 </tr>
                 </tbody>
@@ -74,11 +83,7 @@
                  th:class="${error != null} ? 'alert-danger' : (${status != null} ? 'alert-success' : '')"
                  th:if="${error != null or status != null}">
                 <span th:text="${error != null ? error : (status != null ? status : '')}">错误或状态信息</span>
-
             </div>
-
-
-
 
             <h2>添加用户</h2>
             <form id="form_console" th:action="@{/addAccount}" method="post">
@@ -105,6 +110,74 @@
             </form>
         </div>
     </div>
+    <!-- 修改域名模态框 -->
+    <div id="modifyDomainModal" class="modal">
+        <div class="modal-content">
+            <button id="closeModal" class="close-btn"><i class="fas fa-times"></i></button>
+            <h3 class="modal-title">修改域名转态</h3>
+            <button class="btn modal-submit-btn" id="confirm_changes">确认修改</button>
+        </div>
+    </div>
+
+
+    <!-- 添加域名模态框 -->
+    <div id="addDomainModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn"><i class="fas fa-times"></i></button>
+            <h3 class="modal-title">添加解析域名</h3>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>输入您要解析的一级域名如：bt.cn</label>
+                    <textarea id="domainInput" class="modal-input" placeholder="如需填写多个域名，请换行填写" rows="5"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn modal-submit-btn" id="submit_Domain"><span>提交</span></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 解析记录管理弹框 -->
+    <div id="dnsRecordModal" class="modal">
+        <div class="modal-content" style="width: 90%; max-width: 1200px;">
+            <button class="close-btn"><i class="fas fa-times"></i></button>
+            <h3 class="modal-title">域名解析管理 - <span id="modalDomainName"></span></h3>
+
+            <div class="toolbar">
+                <button class="btn" id="addRecordBtn"><i class="fas fa-plus"></i> 添加解析记录</button>
+                <button class="btn" id="batchAddRecordBtn"><i class="fas fa-plus-circle"></i> 批量添加解析</button>
+            </div>
+
+            <div class="record-table-container">
+                <table class="record-table">
+                    <thead>
+                    <tr>
+                        <th width="40px"><input type="checkbox" id="selectAllRecords"></th>
+                        <th>主机记录</th>
+                        <th>记录类型</th>
+                        <th>线路类型</th>
+                        <th>记录值</th>
+                        <th>MX优先级</th>
+                        <th>TTL(秒)</th>
+                        <th>最后操作时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="recordTableBody">
+                    <!-- 记录将通过JS动态填充 -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination">
+                <span>1/1</span>
+                <span>从1-8条</span>
+                <span>共8条</span>
+            </div>
+        </div>
+    </div>
+
 </div>
 <script src="js/console.js"></script>
 </body>

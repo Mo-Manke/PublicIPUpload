@@ -1,64 +1,111 @@
+:root {
+    --primary-color: #0385e3;
+    --primary-hover: #0064c8;
+    --error-color: #e74c3c;
+    --text-color: #333;
+    --border-color: #ddd;
+    --bg-color: #f5f5f5;
+    --input-focus: rgba(3, 133, 227, 0.2);
+}
+
 body {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-color: #f5f5f5;
+    min-height: 100vh;
 }
 
 .container {
     width: 100%;
-    max-width: 400px;
-    padding: 20px;
+    max-width: 420px;
+    padding: 0 20px;
 }
 
-.login_form {
+.login-form {
     background-color: white;
     padding: 30px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.header h1 {
+.form-header h1 {
     text-align: center;
-    margin-bottom: 20px;
-    color: #333;
+    margin: 0 0 25px;
+    color: var(--text-color);
+    font-size: 24px;
+    font-weight: 600;
 }
 
-.input-group {
+.form-group {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
 }
 
-.input-group input {
-    padding: 12px;
-    border: 1px solid #ddd;
+.input-field {
+    position: relative;
+}
+
+.input-field input {
+    width: 85%;
+    padding: 12px 40px 12px 15px;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
-    font-size: 16px;
-}
-.input-group input:focus{
-    outline: none;
+    font-size: 15px;
+    transition: border-color 0.3s;
 }
 
-.input-group button {
+.input-field input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--input-focus);
+}
+
+.password-field {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    color: #777;
+    transition: color 0.2s;
+}
+
+.password-toggle:hover {
+    color: var(--text-color);
+}
+
+.submit-btn {
+    width: 100%;
     padding: 12px;
-    background-color: #0385e3;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     border-radius: 4px;
     font-size: 16px;
+    font-weight: 500;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
-.input-group button:hover {
-    background-color: #0064c8;
+.submit-btn:hover {
+    background-color: var(--primary-hover);
 }
 
-.error p {
-    color: red;
+.error-message {
+    color: var(--error-color);
+    font-size: 14px;
+    margin-top: -10px;
+    margin-top: -10px;
 }
