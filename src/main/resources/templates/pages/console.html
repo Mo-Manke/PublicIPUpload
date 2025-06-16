@@ -110,21 +110,27 @@
             </form>
         </div>
     </div>
+
     <!-- 修改域名模态框 -->
     <div id="modifyDomainModal" class="modal">
         <div class="modal-content">
-            <button id="closeModal" class="close-btn"><i class="fas fa-times"></i></button>
-            <h3 class="modal-title">修改域名转态</h3>
-            <button class="btn modal-submit-btn" id="confirm_changes">确认修改</button>
+            <div class="modal-header draggable-handle">
+                <button class="close-btn"><i class="fas fa-times"></i></button>
+                <h3 class="modal-title">修改域名状态</h3>
+            </div>
+            <div class="modal-body">
+                <button class="btn modal-submit-btn" id="confirm_changes">确认修改</button>
+            </div>
         </div>
     </div>
-
 
     <!-- 添加域名模态框 -->
     <div id="addDomainModal" class="modal">
         <div class="modal-content">
-            <button class="close-btn"><i class="fas fa-times"></i></button>
-            <h3 class="modal-title">添加解析域名</h3>
+            <div class="modal-header draggable-handle">
+                <button class="close-btn"><i class="fas fa-times"></i></button>
+                <h3 class="modal-title">添加解析域名</h3>
+            </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label>输入您要解析的一级域名如：bt.cn</label>
@@ -139,20 +145,26 @@
 
     <!-- 解析记录管理弹框 -->
     <div id="dnsRecordModal" class="modal">
-        <div class="modal-content" style="width: 90%; max-width: 1200px;">
-            <button class="close-btn"><i class="fas fa-times"></i></button>
-            <h3 class="modal-title">域名解析管理 - <span id="modalDomainName"></span></h3>
-
-            <div class="toolbar">
-                <button class="btn" id="addRecordBtn"><i class="fas fa-plus"></i> 添加解析记录</button>
-                <button class="btn" id="batchAddRecordBtn"><i class="fas fa-plus-circle"></i> 批量添加解析</button>
+        <div class="modal-content large-modal">
+            <div class="modal-header draggable-handle">
+                <button class="close-btn"><i class="fas fa-times"></i></button>
+                <h3>域名解析管理 - <span id="modalDomainName"></span></h3>
             </div>
 
-            <div class="record-table-container">
+            <div class="record-toolbar">
+                <button class="btn btn-primary" id="addRecordBtn">
+                    <i class="fas fa-plus"></i> 添加解析记录
+                </button>
+                <button class="btn btn-secondary" id="batchAddBtn">
+                    <i class="fas fa-layer-group"></i> 批量添加解析
+                </button>
+            </div>
+
+            <div class="table-container">
                 <table class="record-table">
                     <thead>
                     <tr>
-                        <th width="40px"><input type="checkbox" id="selectAllRecords"></th>
+                        <th width="40"><input type="checkbox" id="selectAllRecords"></th>
                         <th>主机记录</th>
                         <th>记录类型</th>
                         <th>线路类型</th>
@@ -165,19 +177,18 @@
                     </tr>
                     </thead>
                     <tbody id="recordTableBody">
-                    <!-- 记录将通过JS动态填充 -->
+                    <!-- 动态填充 -->
                     </tbody>
                 </table>
             </div>
 
-            <div class="pagination">
+            <div class="record-pagination">
                 <span>1/1</span>
-                <span>从1-8条</span>
-                <span>共8条</span>
+                <span>从1-<span id="recordEnd">8</span>条</span>
+                <span>共<span id="recordTotal">8</span>条</span>
             </div>
         </div>
     </div>
-
 </div>
 <script src="js/console.js"></script>
 </body>

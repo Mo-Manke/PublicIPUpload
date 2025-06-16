@@ -712,4 +712,124 @@ button {
     color: orange;
 }
 
+/* 基础样式保持不变，只添加拖动相关样式 */
+
+/* 拖动相关样式 */
+.modal-header.draggable-handle {
+    cursor: move;
+    user-select: none; /* 防止文本被选中 */
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    position: relative;
+}
+
+/* 拖动时的反馈效果 */
+.modal-content.dragging {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* 模态框定位 */
+.modal-content {
+    position: absolute;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* 解析记录弹框特定样式 */
+.large-modal {
+    width: 90%;
+    max-width: 1200px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.domain-grade {
+    margin-left: 15px;
+    color: #666;
+}
+
+.record-toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.search-box {
+    margin-left: auto;
+    display: flex;
+}
+
+.search-box input {
+    width: 280px;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+}
+
+.btn-search {
+    border-radius: 0 4px 4px 0;
+}
+
+.table-container {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.record-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.record-table th, .record-table td {
+    padding: 10px 12px;
+    border: 1px solid #e8e8e8;
+}
+
+.record-table th {
+    background: #f5f5f5;
+    font-weight: 500;
+}
+
+.status-enabled {
+    color: #52c41a;
+}
+
+.status-disabled {
+    color: #ff4d4f;
+}
+
+.record-pagination {
+    margin-top: 15px;
+    text-align: right;
+    color: #666;
+}
+
+/* 记录值显示优化 */
+.record-value {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 加载状态 */
+.loading, .empty, .error {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+.error { color: #ff4d4f; }
+
 

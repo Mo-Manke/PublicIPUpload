@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // ==================== 页面列表切换 ====================
     const sidebar = document.querySelector('.sidebar');
 
     if (sidebar) {
@@ -83,9 +84,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 5000);
     }
 
-    function refreshDomainList(id,key) {
-        // console.log(id)
-        // console.log(key)
+    // ==================== 域名列表功能 ====================
+    function refreshDomainList(id, key) {
         const formData = new URLSearchParams();
         formData.append('id', id);
         formData.append('key', key);
@@ -96,64 +96,56 @@ document.addEventListener('DOMContentLoaded', function () {
         })
             .then(response => response.json())
             .then(data => {
-                // console.log('API返回数据:', data); // 调试用
                 if (data.code === 200) {
-                    // 安全处理数据，确保domainList是数组
                     const domainList = data.data?.[0]?.domainList || [];
                     renderDomainList(domainList);
                 } else {
                     console.error('API返回错误:', data.message);
-                    renderDomainList([]); // 显示空状态
+                    renderDomainList([]);
                 }
             })
             .catch(error => {
                 console.error('请求失败', error);
-                renderDomainList([]); // 显示空状态
+                renderDomainList([]);
             });
     }
 
-   // 控制台数据列表请求
-   document.querySelector('.menu').addEventListener('click', (e) => {
-       const userLi = e.target.closest('li[data-page="domain-list"]');
-       if (!userLi) return;
+    // 控制台数据列表请求
+    document.querySelector('.menu').addEventListener('click', (e) => {
+        const userLi = e.target.closest('li[data-page="domain-list"]');
+        if (!userLi) return;
 
-       // const name = userLi.querySelector('.user-link').textContent;
-       const id = userLi.querySelector('.user-id').value;
-       const key = userLi.querySelector('.user-key').value;
-       // console.log(id)
-       // console.log(key)
-       const formData = new URLSearchParams();
-       formData.append('id', id);
-       formData.append('key', key);
-       fetch('/api/tencent/DescribeDomainList', {
-           method: 'POST',
-           headers: { 'Content-Type':'application/x-www-form-urlencoded' },
-           body: formData
-       })
-           .then(response => response.json())
-           .then(data => {
-               // console.log('API返回数据:', data); // 调试用
-               if (data.code === 200) {
-                   // 安全处理数据，确保domainList是数组
-                   const domainList = data.data?.[0]?.domainList || [];
-                   renderDomainList(domainList);
-               } else {
-                   console.error('API返回错误:', data.message);
-                   renderDomainList([]); // 显示空状态
-               }
-           })
-           .catch(error => {
-               console.error('请求失败', error);
-               renderDomainList([]); // 显示空状态
-           });
+        const id = userLi.querySelector('.user-id').value;
+        const key = userLi.querySelector('.user-key').value;
+
+        const formData = new URLSearchParams();
+        formData.append('id', id);
+        formData.append('key', key);
+        fetch('/api/tencent/DescribeDomainList', {
+            method: 'POST',
+            headers: { 'Content-Type':'application/x-www-form-urlencoded' },
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 200) {
+                    const domainList = data.data?.[0]?.domainList || [];
+                    renderDomainList(domainList);
+                } else {
+                    console.error('API返回错误:', data.message);
+                    renderDomainList([]);
+                }
+            })
+            .catch(error => {
+                console.error('请求失败', error);
+                renderDomainList([]);
+            });
     });
 
-
-// 控制台数据列表渲染
+    // 控制台数据列表渲染
     function renderDomainList(domainList) {
         const tbody = document.querySelector('.domain-table tbody');
 
-        // 确保domainList是数组
         if (!Array.isArray(domainList)) {
             console.error('domainList不是数组:', domainList);
             domainList = [];
@@ -167,7 +159,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let html = '';
         domainList.forEach(domain => {
-            // 安全访问属性，防止undefined错误
             const domainName = domain.name || '未知';
             const status = domain.status || '未知';
             const grade = domain.gradeTitle || '未知';
@@ -178,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <tr>
                 <td><input type="checkbox" class="domain-checkbox"></td>
                 <td>${domainName}</td>
-                <td class="status-cell">${status}</td>
+                <td class="status-cell" style="color: ${status === 'ENABLE' ? 'green' : 'red'}">${status}</td>
                 <td>${grade}</td>
                 <td>${updateTime}</td>
                 <td>
@@ -192,149 +183,122 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('.pagination span:nth-child(2)').textContent = `共${domainList.length}条`;
     }
 
-
-
-
-
-
-
-
-//
-// 动态模拟框
-//     const modifyDomainBtn = document.querySelector('#modify_domain');
-//     const modal = document.getElementById('modifyDomainModal');
-//     const closeBtn = document.getElementById('closeModal');
-//
-//
-//
-// // 点击关闭按钮隐藏模态框
-//     closeBtn.addEventListener('click', () => {
-//         modal.style.display = 'none';
-//     });
-//
-// // 点击模态框外部也关闭模态框
-//     modal.addEventListener('click', (e) => {
-//         if (e.target === modal) {
-//             modal.style.display = 'none';
-//         }
-//     });
-
-
-
-
-
-
-
-    // 状态单元格点击事件（使用事件委托）
+    // ==================== 域名状态切换功能 ====================
+// 状态单元格点击事件
     document.addEventListener('click', function(e) {
+
         const statusCell = e.target.closest('.status-cell');
         if (statusCell) {
             e.preventDefault();
-            handleStatusClick(statusCell,e);
+            // 获取当前状态文本
+            const originalStatus = statusCell.textContent.trim();
+            const statusText = originalStatus === 'ENABLE' ? '停用' : '启用';
+
+            // 使用confirm弹窗获取用户确认
+            const isConfirmed = confirm(`确定要${statusText}该域名吗？`);
+
+            if (isConfirmed) {
+                handleStatusClick(statusCell);
+            }
         }
     });
 
 // 状态点击处理函数
-    function handleStatusClick(cell,e) {
+    function handleStatusClick(cell) {
         // 显示加载状态
         const originalStatus = cell.textContent.trim();
         cell.textContent = '加载中...';
         cell.style.color = 'gray';
+        cell.style.pointerEvents = 'none'; // 禁用点击，防止重复提交
 
-        updateStatusOnServer(cell, originalStatus,e);
+        updateStatusOnServer(cell, originalStatus);
     }
 
 // 更新服务器状态的函数
-    function updateStatusOnServer(cell, originalStatus,e) {
+    function updateStatusOnServer(cell, originalStatus) {
         const row = cell.closest('tr');
         const li = document.querySelector('li[data-page="domain-list"].active');
+
         if (!li) {
             console.error('未找到激活的用户列表项');
             resetCellState(cell, originalStatus);
             return;
         }
-        // 获取当前<li>下的隐藏input值
+
+        // 获取必要数据
         const id = li.querySelector('.user-id').value;
         const key = li.querySelector('.user-key').value;
         const domain = row.querySelector('td:nth-child(2)').textContent;
-        const requestedStatus = originalStatus
-        // console.log('id:',id)
-        // console.log('key:',key)
-        // console.log('domain:',domain)
-        // console.log('status:',requestedStatus)
+
         const formData = new URLSearchParams();
         formData.append('id', id);
         formData.append('key', key);
         formData.append('domain', domain);
-        formData.append('status', requestedStatus);
+        formData.append('status', originalStatus);
 
         // 修改域名状态请求
         fetch('/api/tencent/ModifyDomainStatus', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded' // 修正为正确的Content-Type
+                'Content-Type': 'application/x-www-form-urlencoded'
             },
             body: formData
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('网络响应不正常');
+                }
+                return response.json();
+            })
             .then(data => {
-                if ( data.code ===200 ) {
-                    const confirmed = confirm('状态更新成功，是否切换状态？');
-                    if (confirmed) {
-                        // 切换状态
-                        const newStatus = originalStatus === 'ENABLE' ? 'PAUSE' : 'ENABLE';
-                        cell.textContent = newStatus;
-                        cell.style.color = newStatus === 'ENABLE' ? 'green' : 'red';
-                    } else {
-                        // 保持原状态
-                        resetCellState(cell, originalStatus);
-                    }
+                if (data.code === 200) {
+                    // 请求成功后刷新页面
+                    refreshDomainList(id, key);
+                } else {
+                    throw new Error(data.message || '状态更新失败');
                 }
             })
             .catch(error => {
                 console.error('更新状态出错:', error);
-                // 恢复原始状态
                 resetCellState(cell, originalStatus);
                 alert('请求失败: ' + error.message);
             });
-        function resetCellState(cell, status) {
-            cell.textContent = status;
-            cell.style.color = status === 'ENABLE' ? 'green' : 'red';
-        }
     }
 
+// 重置单元格状态
+    function resetCellState(cell, status) {
+        cell.textContent = status;
+        cell.style.color = status === 'ENABLE' ? 'green' : 'red';
+        cell.style.pointerEvents = 'auto'; // 恢复点击
+    }
 
-
-
-
-// 添加域名模态框功能
+    // ==================== 添加域名功能 ====================
     const addDomainBtn = document.querySelector('.left-buttons .btn:first-child');
     const addDomainModal = document.getElementById('addDomainModal');
     const domainInput = document.getElementById('domainInput');
     const submitDomainBtn = document.getElementById('submit_Domain');
 
-// 点击添加域名按钮显示模态框
+    // 点击添加域名按钮显示模态框
     addDomainBtn.addEventListener('click', () => {
         addDomainModal.style.display = 'flex';
         domainInput.focus();
     });
 
-// 关闭模态框的函数
+    // 关闭模态框的函数
     function closeAddDomainModal() {
         addDomainModal.style.display = 'none';
         domainInput.value = '';
     }
 
-// 点击关闭按钮
+    // 点击关闭按钮
     addDomainModal.querySelector('.close-btn').addEventListener('click', closeAddDomainModal);
 
-// 点击模态框外部关闭
+    // 点击模态框外部关闭
     addDomainModal.addEventListener('click', (e) => {
         if (e.target === addDomainModal) {
             closeAddDomainModal();
         }
     });
-
 
     // 提交域名
     submitDomainBtn.addEventListener('click', (e) => {
@@ -343,21 +307,22 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('请输入至少一个域名');
             return;
         }
+
         const li = document.querySelector('li[data-page="domain-list"].active');
         if (!li) {
             console.error('未找到激活的用户列表项');
             return;
         }
-        // 获取当前<li>下的隐藏input值
+
         const id = li.querySelector('.user-id').value;
         const key = li.querySelector('.user-key').value;
         const domain = domainInput.value;
+
         const formData = new URLSearchParams();
         formData.append('id', id);
         formData.append('key', key);
         formData.append('domain', domain);
 
-        // 添加域名请求
         fetch('/api/tencent/CreateDomain', {
             method: 'POST',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -365,46 +330,10 @@ document.addEventListener('DOMContentLoaded', function () {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data)
                 if (data.code === 200) {
-                    // 关闭模态框
                     closeAddDomainModal();
                     alert('域名添加成功！');
-                    refreshDomainList(id,key) // 替换 teim(this)
-                    // 创建新的域名对象
-                    // const newDomain = {
-                    //     name: data.data[0].domainInfo.domain,
-                    //     status: data.status,
-                    //     gradeTitle: data.gradeTitle, // 默认套餐
-                    //     updatedOn: new Date().toISOString() // 当前时间
-                    // };
-
-                    // 获取当前域名列表
-                    // const tbody = document.querySelector('.domain-table tbody');
-                    // let domainList = [];
-
-                    // 如果当前没有"暂无域名数据"的提示行
-                    // if (!tbody.querySelector('td[colspan="6"]')) {
-                    //     // 收集现有域名数据
-                    //     const rows = tbody.querySelectorAll('tr');
-                    //     rows.forEach(row => {
-                    //         domainList.push({
-                    //             name: row.querySelector('td:nth-child(2)').textContent,
-                    //             status: row.querySelector('.status-cell').textContent,
-                    //             gradeTitle: row.querySelector('td:nth-child(4)').textContent,
-                    //             updatedOn: row.querySelector('td:nth-child(5)').textContent
-                    //         });
-                    //     });
-                    // }
-
-                    // 将新域名添加到列表顶部
-                    // domainList.unshift(newDomain);
-
-                    // 重新渲染列表
-                    // renderDomainList(domainList);
-
-                    // 显示成功提示
-
+                    refreshDomainList(id, key);
                 } else {
                     alert('添加失败: ' + (data.message || '未知错误'));
                 }
@@ -415,22 +344,15 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     });
 
-
-
-// 按ESC键关闭模态框
+    // 按ESC键关闭模态框
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && addDomainModal.style.display === 'flex') {
             closeAddDomainModal();
         }
     });
 
-
-
-
-
-// 删除模块
+    // ==================== 删除域名功能 ====================
     document.addEventListener('click', function(e) {
-        // 检查点击的是否是删除按钮
         const deleteBtn = e.target.closest('.btn-danger');
         if (!deleteBtn) return;
         e.preventDefault();
@@ -439,7 +361,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const domainName = row.querySelector('td:nth-child(2)').textContent;
 
         if(confirm(`你确定要删除${domainName}吗`)) {
-            // 获取当前激活的用户凭证
             const activeUser = document.querySelector('li[data-page="domain-list"].active');
             if (!activeUser) {
                 alert('错误：未找到用户凭证');
@@ -462,11 +383,9 @@ document.addEventListener('DOMContentLoaded', function () {
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log('删除响应:', data);
                     if (data.code === 200) {
                         alert('域名删除成功！');
-                        // 重新获取并渲染域名列表
-                        refreshDomainList(id,key)
+                        refreshDomainList(id, key);
                     } else {
                         throw new Error(data.message || '删除失败');
                     }
@@ -478,12 +397,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-
-
-
-
-
-    // 解析按钮点击事件（使用事件委托）
+    // ==================== 解析记录功能 ====================
+    // 解析按钮点击事件
     document.addEventListener('click', function(e) {
         const resolveBtn = e.target.closest('.btn-sm:not(.btn-danger)');
         if (!resolveBtn || !resolveBtn.textContent.includes('解析')) return;
@@ -505,116 +420,216 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const id = activeUser.querySelector('.user-id').value;
         const key = activeUser.querySelector('.user-key').value;
-        console.log(id)
-        console.log(key)
-        console.log(domainName)
+
         // 获取解析记录
         fetchDNSRecords(id, key, domainName);
     });
 
-// 获取DNS记录的函数
+    // 获取DNS记录的函数
     function fetchDNSRecords(id, key, domain) {
         const tbody = document.getElementById('recordTableBody');
-        tbody.innerHTML = '<tr><td colspan="10" style="text-align: center;">加载中...</td></tr>';
-
-        const formData = new URLSearchParams();
-        formData.append('id', id);
-        formData.append('key', key);
-        formData.append('domain', domain);
+        tbody.innerHTML = '<tr><td colspan="10" class="loading">加载中...</td></tr>';
 
         fetch('/api/tencent/DescribeRecordList', {
             method: 'POST',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: formData
+            body: new URLSearchParams({ id, key, domain })
         })
             .then(response => response.json())
             .then(data => {
-                if (data.code === 200) {
-                    renderDNSRecords(data.data || []);
+                if (data.code === 200 && data.data && data.data[0]?.recordList) {
+                    renderDNSRecords(data.data[0].recordList);
                 } else {
-                    throw new Error(data.message || '获取记录失败');
+                    throw new Error(data.message || '无效的数据结构');
                 }
             })
             .catch(error => {
-                console.error('获取DNS记录出错:', error);
-                tbody.innerHTML = `<tr><td colspan="10" style="text-align: center; color: red;">${error.message}</td></tr>`;
+                console.error('获取记录失败:', error);
+                tbody.innerHTML = `<tr><td colspan="10" class="error">${error.message}</td></tr>`;
             });
     }
 
-// 渲染DNS记录的函数
+    // 渲染DNS记录的函数
     function renderDNSRecords(records) {
         const tbody = document.getElementById('recordTableBody');
 
         if (!records || records.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="10" style="text-align: center;">暂无解析记录</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="10" class="empty">暂无解析记录</td></tr>';
             return;
         }
 
         let html = '';
         records.forEach(record => {
+            const displayValue = record.type === 'TXT'
+                ? record.value.substring(0, 30) + (record.value.length > 30 ? '...' : '')
+                : record.value;
+
+            const displayDate = record.updatedOn || '未知';
+
             html += `
-        <tr>
-            <td><input type="checkbox" class="record-checkbox"></td>
-            <td>${record.name || '@'}</td>
-            <td>${record.type || 'A'}</td>
-            <td>${record.line || '默认'}</td>
-            <td>${record.value || ''}</td>
-            <td>${record.mx || '0'}</td>
-            <td>${record.ttl || '600'}</td>
-            <td>${record.updatedOn ? new Date(record.updatedOn).toLocaleString() : '未知'}</td>
-            <td class="${record.status === 'ENABLE' ? 'status-active' : 'status-paused'}">
-                ${record.status === 'ENABLE' ? '已启用' : '已暂停'}
-            </td>
-            <td>
-                <button class="btn-sm edit-record" data-id="${record.id}">修改</button>
-                <button class="btn-sm btn-danger delete-record" data-id="${record.id}">删除</button>
-            </td>
-        </tr>`;
+            <tr>
+                <td><input type="checkbox" class="record-checkbox"></td>
+                <td>${record.name || '@'}</td>
+                <td>${record.type || 'A'}</td>
+                <td>${record.line || '默认'}</td>
+                <td class="record-value" title="${record.value}">${displayValue}</td>
+                <td>${record.mx || '0'}</td>
+                <td>${record.ttl || '600'}</td>
+                <td>${displayDate}</td>
+                <td class="${record.status === 'ENABLE' ? 'status-enabled' : 'status-disabled'}">
+                    ${record.status === 'ENABLE' ? '已启用' : '已暂停'}
+                </td>
+                <td>
+                    <button class="btn-sm edit-record" data-id="${record.recordId}">修改</button>
+                    <button class="btn-sm delete-record" style="background:linear-gradient(135deg, #ff4d4f, #ff7875);
+                                                                color: white;
+                                                                border: 1px solid rgba(255, 77, 79, 0.3);
+                                                               " data-id="${record.recordId}">删除</button>
+                </td>
+            </tr>`;
         });
 
         tbody.innerHTML = html;
         updatePagination(records.length);
     }
 
-// 更新分页信息
+    // 更新分页信息
     function updatePagination(total) {
         const pagination = document.querySelector('#dnsRecordModal .pagination');
         if (pagination) {
-            pagination.querySelector('span:nth-child(1)').textContent = '1/1';
-            pagination.querySelector('span:nth-child(2)').textContent = `从1-${Math.min(total, 8)}条`;
-            pagination.querySelector('span:nth-child(3)').textContent = `共${total}条`;
+            pagination.innerHTML = `
+                <span>1/1</span>
+                <span>从1-${Math.min(total, 8)}条</span>
+                <span>共${total}条</span>
+            `;
         }
     }
 
-// 关闭解析记录弹框
+    // 关闭解析记录弹框
     document.querySelector('#dnsRecordModal .close-btn').addEventListener('click', function() {
         document.getElementById('dnsRecordModal').style.display = 'none';
     });
 
-// 点击弹框外部关闭
+    // 点击弹框外部关闭
     document.getElementById('dnsRecordModal').addEventListener('click', function(e) {
         if (e.target === this) {
             this.style.display = 'none';
         }
     });
 
-// 添加记录按钮点击事件
+    // 添加记录按钮点击事件
     document.getElementById('addRecordBtn').addEventListener('click', function() {
         alert('添加记录功能待实现');
-        // 这里可以打开另一个弹框用于添加记录
     });
 
-// 批量添加按钮点击事件
-    document.getElementById('batchAddRecordBtn').addEventListener('click', function() {
+    // 批量添加按钮点击事件
+    document.getElementById('batchAddBtn').addEventListener('click', function() {
         alert('批量添加功能待实现');
     });
 
+    // ==================== 模态框拖动功能 ====================
+    // 为所有模态框添加拖动功能
+    document.querySelectorAll('.modal').forEach(modal => {
+        setupDragForModal(modal);
+    });
 
+    // 拖动功能实现
+    function setupDragForModal(modal) {
+        const modalContent = modal.querySelector('.modal-content');
+        const header = modal.querySelector('.draggable-handle');
 
+        if (!header) return;
 
+        let isDragging = false;
+        let startX, startY, startLeft, startTop;
 
+        // 鼠标按下事件
+        header.addEventListener('mousedown', (e) => {
+            if (e.target.closest('button')) return;
+
+            isDragging = true;
+            modalContent.classList.add('dragging');
+
+            startX = e.clientX;
+            startY = e.clientY;
+            startLeft = parseInt(modalContent.style.left, 10) || 0;
+            startTop = parseInt(modalContent.style.top, 10) || 0;
+
+            e.preventDefault();
+        });
+
+        // 鼠标移动事件
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+
+            const maxLeft = window.innerWidth - modalContent.offsetWidth;
+            const maxTop = window.innerHeight - modalContent.offsetHeight;
+
+            modalContent.style.left = `${Math.max(0, Math.min(startLeft + dx, maxLeft))}px`;
+            modalContent.style.top = `${Math.max(0, Math.min(startTop + dy, maxTop))}px`;
+        });
+
+        // 鼠标释放事件
+        document.addEventListener('mouseup', () => {
+            if (isDragging) {
+                isDragging = false;
+                modalContent.classList.remove('dragging');
+            }
+        });
+
+        // 触摸屏支持
+        header.addEventListener('touchstart', (e) => {
+            if (e.target.closest('button')) return;
+
+            isDragging = true;
+            modalContent.classList.add('dragging');
+
+            const touch = e.touches[0];
+            startX = touch.clientX;
+            startY = touch.clientY;
+            startLeft = parseInt(modalContent.style.left, 10) || 0;
+            startTop = parseInt(modalContent.style.top, 10) || 0;
+
+            e.preventDefault();
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+
+            const touch = e.touches[0];
+            const dx = touch.clientX - startX;
+            const dy = touch.clientY - startY;
+
+            const maxLeft = window.innerWidth - modalContent.offsetWidth;
+            const maxTop = window.innerHeight - modalContent.offsetHeight;
+
+            modalContent.style.left = `${Math.max(0, Math.min(startLeft + dx, maxLeft))}px`;
+            modalContent.style.top = `${Math.max(0, Math.min(startTop + dy, maxTop))}px`;
+
+            e.preventDefault();
+        });
+
+        document.addEventListener('touchend', () => {
+            if (isDragging) {
+                isDragging = false;
+                modalContent.classList.remove('dragging');
+            }
+        });
+
+        // 确保模态框初始位置居中
+        function centerModal() {
+            const rect = modalContent.getBoundingClientRect();
+            modalContent.style.left = `${(window.innerWidth - rect.width) / 2}px`;
+            modalContent.style.top = `${(window.innerHeight - rect.height) / 2}px`;
+        }
+
+        // 窗口大小变化时重新居中
+        window.addEventListener('resize', centerModal);
+
+        // 初始化位置
+        centerModal();
+    }
 });
-
-
-
-
